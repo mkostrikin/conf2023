@@ -1,0 +1,9 @@
+#cloud-config
+
+runcmd:
+  - sudo sysctl -w net.ipv6.conf.all.disable_ipv6=1
+  - sudo apt install -y nginx
+  - sudo mkdir /var/www/html/id
+  - echo "${Environment} " | sudo tee /var/www/html/id/index.html
+  - echo " ${pgcreds} " | sudo tee -a  /var/www/html/id/index.html 
+  - curl http://169.254.169.254/latest/meta-data/instance-id | sudo tee -a /var/www/html/id/index.html

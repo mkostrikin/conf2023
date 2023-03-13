@@ -1,0 +1,1 @@
+aws dynamodb create-table --region us-west-1  --table-name terraform-state-lock   --attribute-definitions     AttributeName=LockID,AttributeType=N   --key-schema     AttributeName=LockID,KeyType=HASH   --endpoint https://docapi.serverless.yandexcloud.net/ru-central1/b1glfbto7l084cm9rpgh/etnf06uucp6ttioqom1m
