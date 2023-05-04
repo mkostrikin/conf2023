@@ -3,13 +3,19 @@ resource "yandex_iam_service_account" "sa" {
   name      = "terraform-sa-${var.values.settings.environment}"
 }
 
-// Grant permissions
-resource "yandex_resourcemanager_folder_iam_member" "sa-editor" {
+// Grant permissions for tf state at yandex storage
+resource "yandex_resourcemanager_folder_iam_member" "storage-editor" {
   folder_id = var.values.yandexcloud.folder_id
   role      = "storage.editor"
   member    = "serviceAccount:${yandex_iam_service_account.sa.id}"
 }
 
+// Grant permissions for lock at ydb
+resource "yandex_resourcemanager_folder_iam_member" "ydb-editor" {
+  folder_id = var.values.yandexcloud.folder_id
+  role      = "ydb.editor"
+  member    = "serviceAccount:${yandex_iam_service_account.sa.id}"
+}
 // Create Static Access Keys
 resource "yandex_iam_service_account_static_access_key" "sa-static-key" {
   service_account_id = yandex_iam_service_account.sa.id

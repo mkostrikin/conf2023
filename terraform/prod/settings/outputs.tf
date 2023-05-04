@@ -15,7 +15,7 @@ output "env" {
 }
 
 output "cloudname" {
-  value = "cloud-mkostrikin"
+  value = var.cloudname
 }
 
 output "foldername" {

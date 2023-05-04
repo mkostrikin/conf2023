@@ -15,11 +15,11 @@ output "env" {
 }
 
 output "cloudname" {
-  value = "cloud-mkostrikin"
+  value = var.cloudname
 }
 
 output "foldername" {
-  value = "poc"
+  value = var.foldername
 }
 
 output "vpc" {
