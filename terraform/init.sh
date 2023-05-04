@@ -29,6 +29,11 @@ fi
 
 CONFIGPATH="${ROOT}/terraform/tfstate-config.tf.json"
 
+YCFOLDER=$(jq -r '.variable.foldername.default' "$CONFIGPATH")
+YCFOLDERID=$(yc resource-manager folder get "${YCFOLDER}" --format json| jq -r .id)
+
+LOCK_ENDPOINT=$(yc ydb database list --folder-id "${YCFOLDERID}" --format json | jq -r '.[].document_api_endpoint')
+LOCK_TABLE=$(jq -r '.variable.locks.default' "$CONFIGPATH")
 BUCKET_NAME=$(jq -r '.variable.bucket_name.default' "$CONFIGPATH")
 BUCKET_KEY="${PWD#"$ROOT"/terraform/}/terraform.tfstate"
 
@@ -39,5 +44,7 @@ echo "Registering object storage for terraform state with the following paramete
 terraform init \
     -get=true \
     -force-copy \
+    -backend-config="dynamodb_endpoint=${LOCK_ENDPOINT}" \
+    -backend-config="dynamodb_table=${LOCK_TABLE}" \
     -backend-config="bucket=${BUCKET_NAME}" \
     -backend-config="key=${BUCKET_KEY}"

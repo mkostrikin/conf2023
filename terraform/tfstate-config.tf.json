@@ -2,6 +2,15 @@
   "variable": {
     "bucket_name": {
       "default": "tfstate2023"
+    },
+    "locks": {
+      "default": "tflock"
+    },
+    "cloudname": {
+      "default": "cloud-mkostrikin"
+    },
+    "foldername": {
+      "default": "poc"
     }
   }
 }
